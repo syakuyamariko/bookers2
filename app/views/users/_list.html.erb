@@ -1,0 +1,12 @@
+<!--User Info部分テンプレート-->
+<div><%= flash[:notice] %></div>
+
+<!-- ユーザーの詳細 -->
+<div>
+  <h5>User info</h5>
+  <%= image_tag user.get_profile_image(100,100) %>
+  <h3>name <%= user.name %></h3>
+  <h4>introduction <%= user.introduction %></h4>
+  <p><%= link_to "プロフィール編集", edit_user_path(user.id) %></p>
+</div>
+

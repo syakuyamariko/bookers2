@@ -1,0 +1,23 @@
+<div><%= flash[:notice] %></div>
+
+<!-- ユーザーの詳細 -->
+<%= render 'users/list', user: @user %>
+<%= render 'books/list', book: @book %>
+
+
+
+
+<!-- ユーザーの投稿一覧 -->
+
+<% @books.each do |book| %>
+<div>
+  <%= link_to book_path(book.id) do %>
+  <% end %>
+  <p><%= image_tag book.user.get_profile_image(100,100) %></p>
+  <p>Title：<%= link_to book.title, book_path(book.id) %></p> <!--titleを詳細ページのリンクにする-->
+  <p>Body：<%= book.body %></p>
+  <p><%= book.user.name %></p>
+  <p><%= link_to "Edit", edit_book_path(book.id) %></p>
+</div>
+
+<% end %>
