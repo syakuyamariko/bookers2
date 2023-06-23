@@ -7,9 +7,9 @@ def create
     @book.user_id = current_user.id
   if @book.save
     flash[:notice] = "book was successfully created."
-    redirect_to books_path(book.id)
+    redirect_to book_path(@book.id)
   else
-    flash[:alert] = "error book was not created."
+    flash[:alert] = "Book not created due to error."
     render :new
   end
 end
@@ -18,10 +18,13 @@ end
   def index
     @books = Book.all
     @book = Book.new
+    @user = current_user
+    @users = Book.all
   end
 
   def show
     @book = Book.find(params[:id])
+    @user = @book.user
   end
 
   def edit
@@ -30,14 +33,10 @@ end
 
   def update
     @book = Book.find(params[:id])
-    if @book.update(book_params)
-      flash[:notice] = "You have updated book successfully."
-    redirect_to books_path
-    else
-      @books = Book.all
-      render :edit
+    @book.update(book_params)
+    flash[:notice] = "You have updated book successfully."
+    redirect_to book_path(@book.id)
   end
-end
 
   def destroy
     book = Book.find(params[:id])

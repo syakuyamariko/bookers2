@@ -1,23 +1,42 @@
+<!--Homeのページ-->
+
 <div><%= flash[:notice] %></div>
 
-<!-- ユーザーの詳細 -->
-<%= render 'users/list', user: @user %>
-<%= render 'books/list', book: @book %>
+<!-- User info・New Book -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'users/list', user: @user %>
+      <%= render 'books/list', book: @book %>
+    </div>
+    <div class="col-md-8 offset-md-1">
+      <table class="table table-hover">
+        <thead>
+         <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Opinion</th>
+         </tr>
+        </thead>
 
 
+<!-- 自分の投稿一覧 -->
 
+        <h2>Books</h2>
+        <% @books.each do |book| %>
+          <tbody>
 
-<!-- ユーザーの投稿一覧 -->
+            <%= link_to book_path(book.id) do %>
+            <% end %>
+            <tr>
+              <td><%= image_tag book.user.get_profile_image(100,100) %></td>
+              <td><%= link_to book.title, book_path(book.id) %></td> <!--titleを詳細ページのリンクにする-->
+              <td><%= book.body %></td>
+            </tr>
+          <tbody>
+        <% end %>
 
-<% @books.each do |book| %>
-<div>
-  <%= link_to book_path(book.id) do %>
-  <% end %>
-  <p><%= image_tag book.user.get_profile_image(100,100) %></p>
-  <p>Title：<%= link_to book.title, book_path(book.id) %></p> <!--titleを詳細ページのリンクにする-->
-  <p>Body：<%= book.body %></p>
-  <p><%= book.user.name %></p>
-  <p><%= link_to "Edit", edit_book_path(book.id) %></p>
+      </table>
+    </div>
+  </div>
 </div>
-
-<% end %>

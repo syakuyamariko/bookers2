@@ -1,13 +1,29 @@
-<!--user一覧-->
+<!--User一覧ページ-->
 
-<% provide(:title, 'All users') %>
-<h1>All users</h1>
-
-<ul class="users">
-  <% @users.each do |user| %>
-    <li>
-      <%= gravatar_for user, size: 50 %>
-      <%= link_to user.name, user %>
-    </li>
-  <% end %>
-</ul>
+<!-- User info・New Book -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'users/list', user: @user %>
+      <%= render 'books/list', book: @book %>
+    </div>
+    <div class="col-md-8 offset-md-1">
+      <table class="table table-hover">
+    <thead>
+   <tr>
+    <th>image</th>
+    <th>name</th>
+   </tr>
+  </thead>
+<h2>Users</h2>
+<% @users.each do |user| %>
+<tbody>
+<tr>
+ <td><%= image_tag user.get_profile_image(100,100) %></td>
+ <td><%= user.name %></td>
+ <td><%= link_to "Show", user_path(user.id) %></td>
+</tr>
+</tbody>
+<% end %>
+</table>
+</div>
