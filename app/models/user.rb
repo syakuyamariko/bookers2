@@ -7,7 +7,10 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy #Userモデルに Bookモデルを関連付ける
 
   has_one_attached :profile_image
-  validates :name, uniqueness: true
+
+  #バリデーションの設定
+
+  validates :name, uniqueness: true #名前の一意性
   validates :name, length: { minimum: 2, maximum: 20 } #名前文字数制限
   validates :introduction, length: { maximum: 50 }
   def get_profile_image(width, height)

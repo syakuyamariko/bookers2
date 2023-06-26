@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-
+before_action :is_matching_login_user, only: [:edit, :update]
 
   # 投稿データの保存
 def create
@@ -9,8 +9,9 @@ def create
     flash[:notice] = "book was successfully created."
     redirect_to book_path(@book.id)
   else
-    flash[:alert] = "Book not created due to error."
-    render :new
+    @books = Book.all
+    @user = current_user
+    render :index #renderはアクションを仲介せずにビューファイルを表示してくれるので、今回renderで定義したindexの定義をelseでも記述しなければならない
   end
 end
 
@@ -19,7 +20,6 @@ end
     @books = Book.all
     @book = Book.new
     @user = current_user
-    @users = Book.all
   end
 
   def show
@@ -33,9 +33,13 @@ end
 
   def update
     @book = Book.find(params[:id])
-    @book.update(book_params)
+    if@book.update(book_params)
     flash[:notice] = "You have updated book successfully."
     redirect_to book_path(@book.id)
+  else
+    flash[:alert] = "Book not updated due to an error."
+    render :edit
+  end
   end
 
   def destroy
@@ -52,4 +56,11 @@ end
     params.require(:book).permit(:title, :image, :body)
   end
 
+def is_matching_login_user
+    @book = Book.find(params[:id])
+    user = User.find(@book.user_id)
+    unless user.id == current_user.id
+      redirect_to books_path
+    end
+  end
 end

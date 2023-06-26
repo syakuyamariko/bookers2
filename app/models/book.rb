@@ -10,6 +10,7 @@ class Book < ApplicationRecord
     image
   end
 
+#バリデーションの設定
   validates :title, presence: true
   validates :body, presence: true
   validates :body, length: { minimum: 1, maximum: 200 } #200文字まで
